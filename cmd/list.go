@@ -18,8 +18,8 @@ var listCmd = &cobra.Command{
 	Long:  "list task",
 	Run: func(cmd *cobra.Command, args []string) {
 		var (
-			statusArg   string
-			statusQuery models.TaskStatus
+			statusArg, _ = cmd.Flags().GetString("type")
+			statusQuery  models.TaskStatus
 		)
 		if statusArg == "todo" {
 			statusQuery = 1
@@ -58,14 +58,6 @@ var listCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(listCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// listCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// listCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	listCmd.Flags().String("type", "", "type")
+	_ = listCmd.MarkFlagRequired("type")
 }

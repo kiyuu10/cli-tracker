@@ -18,8 +18,10 @@ var addCmd = &cobra.Command{
 	Short: "add task",
 	Long:  "add task",
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) == 0 && args[0] == "" {
-			fmt.Println("please enter description of task")
+		description, _ := cmd.Flags().GetString("description")
+		if description == "" {
+			fmt.Println("Please enter description")
+			return
 		}
 
 		tasks, err := task_manager.GetTaskDB()
@@ -30,7 +32,7 @@ var addCmd = &cobra.Command{
 
 		var task = models.TaskInfo{
 			ID:          tasks.CurrentId + 1,
-			Description: args[0],
+			Description: description,
 			Status:      models.TaskStatusTodo,
 			CreateAt:    time.Now(),
 			UpdateAt:    time.Now(),
@@ -48,14 +50,6 @@ var addCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(addCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// addCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// addCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	addCmd.Flags().String("description", "", "description")
+	_ = addCmd.MarkFlagRequired("description")
 }
