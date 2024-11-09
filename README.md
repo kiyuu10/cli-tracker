@@ -1,4 +1,4 @@
-Project URL: https://roadmap.sh/projects/task-tracker
+Project URL: https://roadmap.sh/projects/task-tracker.
 This is CLI task tracker.
 List cmd:
  - run command: go run main.go [flag] --[arg-1]=[value] --[arg-2]=[value]
